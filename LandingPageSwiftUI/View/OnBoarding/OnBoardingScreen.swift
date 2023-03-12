@@ -17,34 +17,23 @@ struct OnBoardingScreen: View {
     
     // MARK: Views
     var body: some View {
-            
+        
         //GeometryReader -> Size & Position of View parent
         GeometryReader { display in
             let size = display.size
             
             HStack(spacing: 0) {
                 ForEach($onBoardingItems) { $item in
+                    let isLastSlide = (currentIndex == onBoardingItems.count - 1)
                     VStack {
                         // Top Nav Bar
-                        HStack{
-                            Button("Back"){
-                                if currentIndex > 0 {
-                                    currentIndex -= 1
-                                    playAnimation()
-                                    
-                                }
-                            }
-                            Spacer(minLength: 0)
-                            Button("Skip"){
-                                currentIndex = onBoardingItems.count - 1
-                            }
-                        }
-                        .tint(Color("Orange"))
-                        .fontWeight(Font.Weight.bold)
+                        TopAppBarView(currentIndex: $currentIndex,
+                                      onBoardingItems: $onBoardingItems,
+                                      isLastSlide: isLastSlide)
                         
                         // Movable Slides
                         VStack(spacing: 15) {
-                            let offset = CGFloat(currentIndex) * size.width
+                            let offset = -CGFloat(currentIndex) * size.width
                             // Resible View Lottie
                             ResizableLottieView(onBoardingItem: $item)
                                 .frame(height: size.width)
@@ -57,34 +46,15 @@ struct OnBoardingScreen: View {
                                 .offset(x: offset)
                                 .animation(.easeInOut(duration: 0.5), value: currentIndex)
                             
-                            Text(item.title)
-                                .font(Font.title.bold())
-                                .offset(x: offset)
-                                .animation(.easeInOut(duration: 0.5).delay(0.1), value: currentIndex)
-                            
-                            Text(item.subTitle)
-                                .font(Font.system(size: 14))
-                                .multilineTextAlignment(TextAlignment.center)
-                                .padding(.horizontal, 15)
-                                .foregroundColor(.gray)
-                                .offset(x: offset)
-                                .animation(.easeInOut(duration: 0.5).delay(0.2), value: currentIndex)
+                            CustomTextTitleView(currentIndex: $currentIndex, title: item.title, offset: offset)
+                            CustomTextSubtitleView(currentIndex: $currentIndex, subTitle: item.subTitle, offset: offset)
                         }
                         
                         Spacer(minLength: 0)
                         
                         // Next / Login Button / Terms
                         VStack(spacing: 15) {
-                            Text("Next")
-                                .fontWeight(Font.Weight.bold)
-                                .foregroundColor(.white)
-                                .padding(.vertical, 12)
-                                .frame(maxWidth: .infinity)
-                                .background {
-                                    Capsule()
-                                        .fill(Color("Orange"))
-                                }
-                                .padding(.horizontal, 100)
+                            NCButtonView(isLastSlide: isLastSlide)
                                 .onTapGesture {
                                     // Updating to next index
                                     if currentIndex < onBoardingItems.count - 1 {
@@ -97,29 +67,21 @@ struct OnBoardingScreen: View {
                                         currentIndex += 1
                                         
                                         // Playing next animation from start
-                                        playAnimation()
+                                        onBoardingItems[currentIndex].playAnimation()
                                         
                                     }
                                 }
                             
-                            HStack{
-                                Text("Terms of Service")
-                                
-                                Text("Privacy Policy")
-                            }
-                            .font(.caption2)
-                            .underline(true, color: .primary)
-                            .offset(y: 5)
+                            BottomTextView()
                         }
                     }
-                    
+                    .animation(.easeInOut, value: isLastSlide)
+                    .padding(20)
+                    .frame(width: size.width, height: size.height)
                 }
-                .padding(20)
-                .frame(width: size.width, height: size.height)
             }
             .frame(width: size.width * CGFloat(onBoardingItems.count), alignment: Alignment.leading)
         }
-        
     }
     
     // MARK: Private function
@@ -131,10 +93,6 @@ struct OnBoardingScreen: View {
         return 0
     }
     
-    private func playAnimation() {
-        onBoardingItems[currentIndex].lottieView.currentProgress = 0
-        onBoardingItems[currentIndex].lottieView.play(toProgress: 0.7)
-    }
 }
 
 struct OnBoardingScreen_Previews: PreviewProvider {
