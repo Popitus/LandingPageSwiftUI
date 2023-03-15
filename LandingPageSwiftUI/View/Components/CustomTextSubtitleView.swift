@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTextSubtitleView: View {
-    @Binding var currentIndex: Int
+    var currentIndex: Int
     let subTitle: String
     let offset: CGFloat
     
@@ -25,6 +25,6 @@ struct CustomTextSubtitleView: View {
 
 struct CustomTextSubtitleView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomTextSubtitleView(currentIndex: .constant(0), subTitle: "Subtitulo", offset: 0)
+        CustomTextSubtitleView(currentIndex: 0, subTitle: "Subtitulo", offset: 0)
     }
 }

@@ -17,7 +17,7 @@ struct NCButtonView: View {
             .frame(maxWidth: .infinity)
             .background {
                 Capsule()
-                    .fill(Color("Orange"))
+                    .fill(.orange)
             }
             .padding(.horizontal,isLastSlide ? 30 : 100)
     }

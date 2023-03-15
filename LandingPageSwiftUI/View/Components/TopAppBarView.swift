@@ -11,7 +11,7 @@ struct TopAppBarView: View {
     
     // Properties
     @Binding var currentIndex: Int
-    @Binding var onBoardingItems:[OnBoardingItem]
+    var onBoardingItems:[OnBoardingItem]
     let isLastSlide: Bool
     
     // View
@@ -35,7 +35,7 @@ struct TopAppBarView: View {
 
         }
         .animation(.easeInOut, value: currentIndex)
-        .tint(Color("Orange"))
+        .tint(.orange)
         .fontWeight(Font.Weight.bold)
     } 
 }
@@ -44,9 +44,9 @@ struct TopAppBarView_Previews: PreviewProvider {
     static var previews: some View {
         TopAppBarView(
             currentIndex: .constant(0),
-            onBoardingItems: .constant([OnBoardingItem(message1: "First Display"),
+            onBoardingItems: [OnBoardingItem(message1: "First Display"),
                                         OnBoardingItem(message2: "Second Display"),
-                                        OnBoardingItem(message3: "Third Display")]),
+                                        OnBoardingItem(message3: "Third Display")],
         isLastSlide: true)
     }
 }

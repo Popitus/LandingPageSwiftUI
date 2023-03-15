@@ -28,7 +28,7 @@ struct OnBoardingScreen: View {
                     VStack {
                         // Top Nav Bar
                         TopAppBarView(currentIndex: $currentIndex,
-                                      onBoardingItems: $onBoardingItems,
+                                      onBoardingItems: onBoardingItems,
                                       isLastSlide: isLastSlide)
                         
                         // Movable Slides
@@ -46,8 +46,8 @@ struct OnBoardingScreen: View {
                                 .offset(x: offset)
                                 .animation(.easeInOut(duration: 0.5), value: currentIndex)
                             
-                            CustomTextTitleView(currentIndex: $currentIndex, title: item.title, offset: offset)
-                            CustomTextSubtitleView(currentIndex: $currentIndex, subTitle: item.subTitle, offset: offset)
+                            CustomTextTitleView(currentIndex: currentIndex, title: item.title, offset: offset)
+                            CustomTextSubtitleView(currentIndex: currentIndex, subTitle: item.subTitle, offset: offset)
                         }
                         
                         Spacer(minLength: 0)
@@ -99,7 +99,5 @@ struct OnBoardingScreen_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .previewDevice("iPhone 14 Pro Max")
-        ContentView()
-            .previewDevice("iPhone SE (3rd generation)")
     }
 }

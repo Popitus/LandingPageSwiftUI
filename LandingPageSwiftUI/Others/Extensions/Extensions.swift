@@ -5,7 +5,7 @@
 //  Created by MacAmd on 12/3/23.
 //
 
-import Foundation
+import SwiftUI
 import Lottie
 
 extension OnBoardingItem {
@@ -15,4 +15,9 @@ extension OnBoardingItem {
             self.lottieView.play(toProgress: 0.7)
         }
     }
+}
+
+extension Color {
+    static let orange = Color("Orange")
+    static let purple = Color("Purple")
 }
